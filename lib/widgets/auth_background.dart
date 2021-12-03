@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AuthBackground extends StatelessWidget {
+  final Widget child;
+
+  const AuthBackground({Key? key, required this.child}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final anchoTotal = MediaQuery.of(context).size.width;
@@ -14,10 +18,31 @@ class AuthBackground extends StatelessWidget {
           _PurpleBox(
             ancho: anchoTotal,
             alto: altoTotal,
-          )
+          ),
+          _headIcon(),
+          this.child
         ],
       ),
     );
+  }
+}
+
+class _headIcon extends StatelessWidget {
+  const _headIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        top: 50,
+        left: 50,
+        right: 50,
+        child: Icon(
+          Icons.person_pin,
+          color: Colors.white,
+          size: 100,
+        ));
   }
 }
 
