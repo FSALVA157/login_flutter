@@ -1,0 +1,14 @@
+import 'package:flutter/material.dart';
+
+class LoginFormProvider extends ChangeNotifier {
+  String email = "";
+  String password = "";
+  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+
+  bool isValidForm() {
+    print(this.email);
+    print(this.password);
+    print(formKey.currentState?.validate() ?? false);
+    return formKey.currentState?.validate() ?? false;
+  }
+}
