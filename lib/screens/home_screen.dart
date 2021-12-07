@@ -5,8 +5,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('Home Screen'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('PAGINA DE NAVEGACION'),
+      ),
+      body: Center(
+        child: Text('BIENVENIDO A LA APLICACION'),
+      ),
     );
   }
 }

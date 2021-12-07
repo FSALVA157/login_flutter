@@ -4,6 +4,7 @@ import 'package:flutter_productos/providers/login_form_provider.dart';
 import 'package:flutter_productos/ui/input_decorations.dart';
 import 'package:flutter_productos/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:stylish_dialog/stylish_dialog.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -63,6 +64,20 @@ class _Formulario extends StatelessWidget {
     LoginFormProvider loginFormProvider =
         Provider.of<LoginFormProvider>(context);
 
+    StylishDialog dialog_process = StylishDialog(
+      context: context,
+      alertType: StylishDialogType.PROGRESS,
+      animationLoop: false,
+      titleText: 'Procesando...',
+      dismissOnTouchOutside: false,
+    );
+
+    StylishDialog errorDialog = StylishDialog(
+        context: context,
+        alertType: StylishDialogType.ERROR,
+        titleText: 'Datos no Válidos!',
+        contentText: "controle los datos ingresados");
+
     return Container(
       child: Form(
           key: loginFormProvider.formKey,
@@ -103,12 +118,22 @@ class _Formulario extends StatelessWidget {
               ),
               const SizedBox(height: 50.0),
               MaterialButton(
-                onPressed: () {
-                  if (!loginFormProvider.isValidForm()) {
-                    return;
-                  }
-                  Navigator.pushReplacementNamed(context, 'home');
-                },
+                onPressed: loginFormProvider.isLoading
+                    ? null
+                    : () async {
+                        if (!loginFormProvider.isValidForm()) {
+                          errorDialog.show();
+                          return;
+                        } else {
+                          loginFormProvider.isLoading = true;
+                          FocusScope.of(context).unfocus();
+                          dialog_process.show();
+                          await Future.delayed(Duration(seconds: 3));
+                          loginFormProvider.isLoading = false;
+                          Navigator.pushReplacementNamed(context, 'home');
+                        }
+                        ;
+                      },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
