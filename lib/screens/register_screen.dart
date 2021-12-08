@@ -6,8 +6,8 @@ import 'package:flutter_productos/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
                     height: 25,
                   ),
                   Text(
-                    'Login',
+                    'Registro',
                     style: ThemeData().textTheme.headline4,
                   ),
                   SizedBox(
@@ -44,10 +44,10 @@ class LoginScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, 'registro');
+                Navigator.pushReplacementNamed(context, 'login');
               },
               child: Text(
-                'Crear una cuenta',
+                '¿Ya tienes una cuenta?',
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class _Formulario extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                color: Colors.deepPurple,
+                color: Colors.greenAccent,
                 elevation: 0,
                 disabledColor: Colors.grey,
                 child: Container(
