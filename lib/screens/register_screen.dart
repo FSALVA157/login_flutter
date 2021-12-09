@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_productos/providers/login_form_provider.dart';
+import 'package:flutter_productos/services/services.dart';
 import 'package:flutter_productos/ui/input_decorations.dart';
 import 'package:flutter_productos/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,7 @@ class _Formulario extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginFormProvider loginFormProvider =
         Provider.of<LoginFormProvider>(context);
+    //AuthService authService = Provider.of<AuthService>(context);
 
     StylishDialog dialog_process = StylishDialog(
       context: context,
@@ -139,8 +141,11 @@ class _Formulario extends StatelessWidget {
                         } else {
                           loginFormProvider.isLoading = true;
                           FocusScope.of(context).unfocus();
+                          AuthService authService =
+                              Provider.of<AuthService>(context, listen: false);
                           dialog_process.show();
-                          await Future.delayed(Duration(seconds: 3));
+                          await authService.createUser(loginFormProvider.email,
+                              loginFormProvider.password);
                           loginFormProvider.isLoading = false;
                           Navigator.pushReplacementNamed(context, 'home');
                         }
