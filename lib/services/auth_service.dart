@@ -7,18 +7,21 @@ class AuthService extends ChangeNotifier {
   String _baseUrl = "identitytoolkit.googleapis.com";
   String _firebaseToken = "AIzaSyAzavFEg_0JC3CYvIGd07ZdwXfiXpOpNQg";
 
-  Future<String?> createUser(String correo, String clave) async {
-    print('INGRESANDO AL CREATE USER SERVICE!1');
+  Future<dynamic> createUser(String correo, String clave) async {
     final Map<String, dynamic> authData = {"email": correo, "password": clave};
 
     final url = Uri.https(
         this._baseUrl, "/v1/accounts:signUp", {"key": this._firebaseToken});
-    print(url.toString());
 
     final respuesta = await http.post(url, body: json.encode(authData));
-    final Map<String, dynamic> respDecoded = jsonDecode(respuesta.body);
+    final Map<String, dynamic> respDecoded = json.decode(respuesta.body);
 
-    print(respDecoded);
-    return respDecoded.toString();
+    return respDecoded;
+
+    // if (respDecoded.containsKey('idToken')) {
+    //   return respDecoded['idToken'];
+    // } else {
+    //   return respDecoded['error']['message'];
+    // }
   }
 }
