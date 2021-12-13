@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_productos/providers/login_form_provider.dart';
+import 'package:flutter_productos/services/auth_service.dart';
 import 'package:flutter_productos/ui/input_decorations.dart';
 import 'package:flutter_productos/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -139,10 +140,62 @@ class _Formulario extends StatelessWidget {
                         } else {
                           loginFormProvider.isLoading = true;
                           FocusScope.of(context).unfocus();
+                          final authService =
+                              Provider.of<AuthService>(context, listen: false);
                           dialog_process.show();
-                          await Future.delayed(Duration(seconds: 3));
+
+                          Map<String, dynamic> data =
+                              await authService.loginUser(
+                                  loginFormProvider.email,
+                                  loginFormProvider.password);
                           loginFormProvider.isLoading = false;
-                          Navigator.pushReplacementNamed(context, 'home');
+                          if (data.containsKey('idToken')) {
+                            //loginFormProvider.isLoading = false;
+                            String token = data['idToken'];
+                            print(token);
+                            errorDialog.dismiss();
+                            StylishDialog(
+                                context: context,
+                                alertType: StylishDialogType.SUCCESS,
+                                titleText: 'Registro Exitoso!',
+                                contentText:
+                                    'Ha sido incorporado a la Base de Datos',
+                                confirmButton: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, 'home');
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(4),
+                                    child: Text(
+                                      'Aceptar',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.teal),
+                                  ),
+                                )
+                                // confirmPressEvent: () {
+
+                                //
+                                // },
+                                ).show();
+                          } else {
+                            String errorMessage = data['error']['message'];
+                            //loginFormProvider.isLoading = false;
+                            errorDialog.dismiss();
+                            StylishDialog(
+                                    context: context,
+                                    alertType: StylishDialogType.ERROR,
+                                    titleText: 'ERROR DE REGISTRO!',
+                                    contentText: '$errorMessage')
+                                .show();
+                            return;
+                          }
+                          // Navigator.pushReplacementNamed(context, 'home');
                         }
                         ;
                       },

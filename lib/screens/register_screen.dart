@@ -148,8 +148,9 @@ class _Formulario extends StatelessWidget {
                               await authService.createUser(
                                   loginFormProvider.email,
                                   loginFormProvider.password);
+                          loginFormProvider.isLoading = false;
                           if (data.containsKey('idToken')) {
-                            loginFormProvider.isLoading = false;
+                            //loginFormProvider.isLoading = false;
                             String token = data['idToken'];
                             print(token);
                             errorDialog.dismiss();
@@ -184,7 +185,7 @@ class _Formulario extends StatelessWidget {
                                 ).show();
                           } else {
                             String errorMessage = data['error']['message'];
-                            loginFormProvider.isLoading = false;
+                            //loginFormProvider.isLoading = false;
                             errorDialog.dismiss();
                             StylishDialog(
                                     context: context,
