@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         'registro': (_) => RegisterScreen(),
         'checkin': (_) => CheckAuthScreen()
       },
+      scaffoldMessengerKey: NotificationsService.messengerKey,
     );
   }
 }

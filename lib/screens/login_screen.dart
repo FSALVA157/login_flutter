@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_productos/providers/login_form_provider.dart';
 import 'package:flutter_productos/services/auth_service.dart';
+import 'package:flutter_productos/services/services.dart';
 import 'package:flutter_productos/ui/input_decorations.dart';
 import 'package:flutter_productos/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -149,6 +150,7 @@ class _Formulario extends StatelessWidget {
                                   loginFormProvider.email,
                                   loginFormProvider.password);
                           loginFormProvider.isLoading = false;
+                          dialog_process.dismiss();
                           if (data.containsKey('idToken')) {
                             //loginFormProvider.isLoading = false;
                             String token = data['idToken'];
@@ -185,17 +187,17 @@ class _Formulario extends StatelessWidget {
                                 ).show();
                           } else {
                             String errorMessage = data['error']['message'];
-                            //loginFormProvider.isLoading = false;
-                            errorDialog.dismiss();
-                            StylishDialog(
-                                    context: context,
-                                    alertType: StylishDialogType.ERROR,
-                                    titleText: 'ERROR DE REGISTRO!',
-                                    contentText: '$errorMessage')
-                                .show();
+                            NotificationsService.showSnackbar(errorMessage);
+                            //                    errorDialog.dismiss();
+                            //   StylishDialog(
+                            //           context: context,
+                            //           alertType: StylishDialogType.ERROR,
+                            //           titleText: 'ERROR DE REGISTRO!',
+                            //           contentText: '$errorMessage')
+                            //       .show();
                             return;
                           }
-                          // Navigator.pushReplacementNamed(context, 'home');
+                          Navigator.pushReplacementNamed(context, 'home');
                         }
                         ;
                       },
