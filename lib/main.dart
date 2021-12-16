@@ -29,6 +29,10 @@ class MyApp extends StatelessWidget {
         'checkin': (_) => CheckAuthScreen()
       },
       scaffoldMessengerKey: NotificationsService.messengerKey,
+      theme: ThemeData.light().copyWith(
+          appBarTheme: AppBarTheme(color: Colors.indigo),
+          floatingActionButtonTheme:
+              FloatingActionButtonThemeData(backgroundColor: Colors.indigo)),
     );
   }
 }
